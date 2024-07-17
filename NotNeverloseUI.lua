@@ -1,5 +1,27 @@
 local Library = {}
 
+-- Define a variable to track UI visibility
+local uiVisible = true
+
+-- Function to toggle UI visibility
+local function toggleUI()
+    uiVisible = not uiVisible
+    for _, uiElement in pairs(game.Players.LocalPlayer.PlayerGui:GetChildren()) do
+        if uiElement:IsA("ScreenGui") then
+            uiElement.Enabled = uiVisible
+        end
+    end
+end
+
+-- Listen for a keybind (e.g., "F1") to toggle UI visibility
+game:GetService("UserInputService").InputBegan:Connect(function(input, processed)
+    if not processed then
+        if input.KeyCode == Enum.KeyCode.F1 then
+            toggleUI()
+        end
+    end
+end)
+--
 local NeverloseVersion = "v1.1A."
 
 local TweenService = game:GetService("TweenService")
@@ -115,8 +137,8 @@ function Library:Window(options)
     local TopBar = Instance.new("Frame")
     local tbLine = Instance.new("Frame")
     local Title = Instance.new("TextLabel")
-    --local saveBtn = Instance.new("TextButton")
-    --local saveLabel = Instance.new("ImageLabel")
+    local saveBtn = Instance.new("TextButton")
+    local saveLabel = Instance.new("ImageLabel")
 
     local allPages = Instance.new("Frame")
     local tabContainer = Instance.new("Frame")
@@ -182,7 +204,7 @@ function Library:Window(options)
     Title.TextSize = 28.000
     Title.TextWrapped = true
 
-    --[[saveBtn.Name = "saveBtn"
+    saveBtn.Name = "saveBtn"
     saveBtn.Parent = TopBar
     saveBtn.AnchorPoint = Vector2.new(0.5, 0.5)
     saveBtn.BackgroundColor3 = Color3.fromRGB(9, 8, 13)
@@ -203,7 +225,6 @@ function Library:Window(options)
     saveLabel.Size = UDim2.new(0, 18, 0, 18)
     saveLabel.Image = "rbxassetid://7999984136"
     saveLabel.ImageColor3 = Color3.fromRGB(132, 146, 153)
-    ]]
 
     allPages.Name = "allPages"
     allPages.Parent = Body
@@ -1136,8 +1157,6 @@ function Library:Window(options)
                         A = true,
                         S = true,
                         D = true,
-                        I = true,
-                        O = true,
                         Unknown = true
                     }
 
