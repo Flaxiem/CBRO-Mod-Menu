@@ -1,87 +1,160 @@
-local Library = loadstring(game:HttpGet("https://raw.githubusercontent.com/Flaxiem/CBRO-Mod-Menu/main/NotNeverloseUI.lua"))()
--- Toggle UI: Library:Toggle()
+local library = loadstring(game:HttpGet("https://raw.githubusercontent.com/Flaxiem/CBRO-Mod-Menu/main/PepsiUI.lua", true))()
+local Wait = library.subs.Wait -- Only returns if the GUI has not been terminated. For 'while Wait() do' loops
 
-local Window = Library:Window({
-    text = "Window"
+local PepsisWorld = library:CreateWindow({
+Name = "Pepsi's World",
+Themeable = {
+Info = "Discord Server: VzYTJ7Y"
+}
 })
 
-local TabSection = Window:TabSection({
-    text = "TabSection"
+local GeneralTab = PepsisWorld:CreateTab({
+Name = "General"
+})
+local FarmingSection = GeneralTab:CreateSection({
+Name = "Farming"
+})
+FarmingSection:AddToggle({
+Name = "EXP Grinder",
+Flag = "FarmingSection_EXPGrinder"
+})
+FarmingSection:AddToggle({
+Name = "Trick Spammer",
+Flag = "FarmingSection_TrickSpammer",
+Keybind = 1,
+Callback = print
+})
+FarmingSection:AddSlider({
+Name = "Trick Rate",
+Flag = "FarmingSection_TrickRate",
+Value = 0.15,
+Precise = 2,
+Min = 0,
+Max = 1
+})
+FarmingSection:AddToggle({
+Name = "TP To Coins",
+Flag = "FarmingSection_TPCoins"
+})
+FarmingSection:AddToggle({
+Name = "Collect Coins",
+Flag = "FarmingSection_CollectCoins",
+Callback = print
+})
+FarmingSection:AddSlider({
+Name = "Coin Distance",
+Flag = "FarmingSection_CoinDistance",
+Value = 175,
+Min = 0,
+Max = 200,
+Format = function(Value)
+if Value == 0 then
+return "Collection Distance: Infinite"
+else
+return "Collection Distance: " .. tostring(Value)
+end
+end
 })
 
-local Tab = TabSection:Tab({
-    text = "Tab",
-    icon = "rbxassetid://7999345313",
+local BoardControlSection = GeneralTab:CreateSection({
+Name = "Board Control"
+})
+BoardControlSection:AddToggle({
+Name = "Anti Trip/Ragdoll",
+Flag = "BoardControlSection_AntiTripRagdoll",
+Callback = print
+})
+BoardControlSection:AddToggle({
+Name = "No Wear & Tear",
+Flag = "BoardControlSection_NoWearTear"
+})
+BoardControlSection:AddToggle({
+Name = "No Trick Cooldown",
+Flag = "BoardControlSection_NoTrickCooldown",
+Callback = print
+})
+BoardControlSection:AddToggle({
+Name = "Extend Combo Timout",
+Flag = "BoardControlSection_ExtendComboTimeout"
+})
+BoardControlSection:AddSlider({
+Name = "Timeout Extension",
+Flag = "BoardControlSection_CoinDistance",
+Value = 3,
+Min = 0,
+Max = 20,
+Format = function(Value)
+if Value == 0 then
+return "Combo Timeout: Never"
+else
+return "Combo Timeout: " .. tostring(Value) .. "s"
+end
+end
 })
 
-local Section = Tab:Section({
-    text = "Section"
+local MiscSection = GeneralTab:CreateSection({
+Name = "Misc",
+Side = "Right"
+})
+MiscSection:AddToggle({
+Name = "Unlock Gamepasses",
+Flag = "MiscSection_UnlockGamepasses",
+Callback = print
+})
+MiscSection:AddToggle({
+Name = "Auto Compete",
+Flag = "MiscSection_AutoCompete",
+Callback = print
+})
+MiscSection:AddButton({
+Name = "Repair Board",
+Callback = function()
+print("Fixed")
+end
+})
+MiscSection:AddKeybind({
+Name = "Test Key",
+Callback = print
+})
+MiscSection:AddToggle({
+Name = "Test Toggle/Key",
+Keybind = {
+Mode = "Dynamic" -- Dynamic means to use the 'hold' method, if the user keeps the button pressed for longer than 0.65 seconds; else use toggle method
+},
+Callback = print
 })
 
-Section:Button({
-    text = "Button",
-    callback = function()
-        print("Clicked button")
-    end,
+local FunSection = GeneralTab:CreateSection({
+Name = "Fun Cosmetics"
 })
-
-Section:Toggle({
-    text = "Toggle",
-    state = false, -- Default boolean
-    callback = function(boolean)
-        print("Toggle current: ",boolean)
-    end
+FunSection:AddToggle({
+Name = "Ragdoll Assumes Flight",
+Flag = "FunSection_AssumesFlight"
 })
-
-Section:Slider({
-    text = "Slider",
-    min = 10,
-    max = 100,
-    -- [[Float = 0,]] Idk what it does
-    callback = function(number)
-        print(number)
-    end
+FunSection:AddToggle({
+Name = "Ragdoll On Player Collision",
+Flag = "FunSection_RagdollOnPlayerCollision"
 })
-
-Section:Dropdown({
-    text = "Dropdown",
-    list = {"Apple", "Banana","Coconut"},
-    default = "Apple",
-    callback = function(String)
-        print(String)
-    end
+FunSection:AddToggle({
+Name = "Un-Ragdoll When Motionless",
+Flag = "FunSection_UnRagdollWhenMotionless"
 })
-
-Section:Textbox({
-    text = "Textbox",
-    value = "Default",
-    callback = function(String)
-        print(String)
-    end
+FunSection:AddToggle({
+Name = "Extend Ragdoll Duration",
+Flag = "FunSection_ExtendRagdollDuration"
 })
-
-Section:Colorpicker({
-    text = "Colorpicker",
-    color = Color3.new(1,1,1),
-    callback = function(HSV)
-        print(HSV)
-    end
-})
-
---[[
-    blacklisted keybind:
-        Return
-        Space
-        Tab
-        W,A,S,D,I,O
-        Unknown
-]]
-
-Section:Keybind({
-    text = "Keybind",
-    default = Enum.KeyCode.Z,
-    callback = function(defaultBind)
-        print("Triggered keybind")
-        print(defaultBind)
-    end
+FunSection:AddSlider({
+Name = "Coin Distance",
+Flag = "FarmingSection_Coin Distance",
+Value = 4,
+Min = 0,
+Max = 60,
+Textbox = true,
+Format = function(Value)
+if Value == 0 then
+return "Ragdoll Extension: Indefinite"
+else
+return "Ragdoll Extension: " .. tostring(Value) .. "s"
+end
+end
 })
